@@ -1,10 +1,7 @@
+// GroupDialog.tsx
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
-
-export interface Group {
-  id: string;
-  name: string;
-}
+import { Group } from './types'; // Group 타입을 불러옵니다.
 
 export interface GroupDialogProps {
   isOpen: boolean;
@@ -12,7 +9,8 @@ export interface GroupDialogProps {
   onSubmit: () => void;
   groupName: string;
   onGroupNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  editingGroup: Group | null; // editingGroup 속성 추가
+  editingGroup: Group | null;
+  onGroupDelete: (group: Group) => void; // onGroupDelete 함수를 추가합니다.
 }
 
 const GroupDialog: React.FC<GroupDialogProps> = ({
@@ -21,7 +19,8 @@ const GroupDialog: React.FC<GroupDialogProps> = ({
   onSubmit,
   groupName,
   onGroupNameChange,
-  editingGroup, // editingGroup props 추가
+  editingGroup,
+  onGroupDelete,
 }) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
@@ -44,6 +43,11 @@ const GroupDialog: React.FC<GroupDialogProps> = ({
         <Button onClick={onSubmit} color="primary">
           {editingGroup ? 'Update' : 'Add'}
         </Button>
+        {editingGroup && (
+          <Button onClick={() => onGroupDelete(editingGroup)}>
+            Delete
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
